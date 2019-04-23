@@ -10,9 +10,9 @@ from collections import Counter
 LR = 1e-3
 env = gym.make('Atlantis-ram-v0')
 env.reset()
-goal_steps = 100
-score_requirement = 0.0
-initial_games = 300
+goal_steps = 200
+score_requirement = 500.0
+initial_games = 1000
 
 def some_random_games_first():
     valid_actions = []
@@ -28,7 +28,7 @@ def some_random_games_first():
             if done:
                 break
             rtot += reward
-            if reward > 20.0:
+            if reward or (not reward) :
                 print("Observation: ", observation)
                 print("Reward: ", reward)
                 print("Info: ", info)
@@ -92,7 +92,7 @@ def initial_population():
         scores.append(score)    
     
     training_data_save = np.array(training_data)
-    np.save('boxing_save.npy', training_data_save)
+    np.save('atlantis_save.npy', training_data_save)
 
     print('Average accepted score:',mean(accepted_scores))
     print('Median score for accepted scores:',median(accepted_scores))
@@ -138,12 +138,12 @@ def train_model(training_data, model = False):
     if not model:
         model = neural_network_model(input_size=len(X[0]))
 
-    model.fit({'input': X}, {'targets' : y}, n_epoch = 25, show_metric = True, 
+    model.fit({'input': X}, {'targets' : y}, n_epoch = 10, show_metric = True, 
     run_id='atlantis')
 
     return model
 
-training_data = np.load("boxing_save.npy")
+training_data = np.load("atlantis_save.npy")
 print("Train_shape: ", training_data.shape)
 model = train_model(training_data)
 print("Model Done")

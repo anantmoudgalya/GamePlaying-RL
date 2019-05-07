@@ -8,9 +8,9 @@ from statistics import mean, median
 from collections import Counter
 
 LR = 1e-3
-env = gym.make('CartPole-v0')
+env = gym.make('CartPole-v1')
 env.reset()
-goal_steps = 200 
+goal_steps = 500 
 score_requirement = 50
 initial_games = 10000
 
@@ -81,7 +81,7 @@ def initial_population():
     
     # just in case you wanted to reference later
     training_data_save = np.array(training_data)
-    np.save('saved.npy',training_data_save)
+    #np.save('saved.npy',training_data_save)
     
     # some stats here, to further illustrate the neural network magic!
     print('Average accepted score:',mean(accepted_scores))
@@ -124,7 +124,7 @@ def train_model(training_data, model = False):
     if not model:
         model = neural_network_model(input_size=len(X[0]))
 
-    model.fit({'input': X}, {'targets' : y}, n_epoch = 3, show_metric = True, snapshot_step = 500, 
+    model.fit({'input': X}, {'targets' : y}, n_epoch = 5, show_metric = True, snapshot_step = 500, 
     run_id='openaiex')
 
     return model

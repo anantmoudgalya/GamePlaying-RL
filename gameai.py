@@ -10,7 +10,7 @@ from collections import Counter
 LR = 1e-3
 env = gym.make('Atlantis-ram-v0')
 env.reset()
-goal_steps = 200
+goal_steps = 1000
 score_requirement = 500.0
 initial_games = 1000
 
@@ -107,19 +107,13 @@ def neural_network_model(input_size):
     
     network = input_data(shape=[None,input_size,1], name="input")
 
-    network = fully_connected(network, 128, activation='relu')
-    network = dropout(network, 0.8)
-
-    network = fully_connected(network, 256, activation='relu')
-    network = dropout(network, 0.8)
-
     network = fully_connected(network, 512, activation='relu')
     network = dropout(network, 0.8)
 
-    network = fully_connected(network, 256, activation='relu')
+    network = fully_connected(network, 1024, activation='relu')
     network = dropout(network, 0.8)
 
-    network = fully_connected(network, 128, activation='relu')
+    network = fully_connected(network, 512, activation='relu')
     network = dropout(network, 0.8)
 
     network = fully_connected(network, 4, activation='softmax')
@@ -143,7 +137,7 @@ def train_model(training_data, model = False):
 
     return model
 
-training_data = np.load("atlantis_save.npy")
+training_data = initial_population()
 print("Train_shape: ", training_data.shape)
 model = train_model(training_data)
 print("Model Done")

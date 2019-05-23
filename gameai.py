@@ -15,30 +15,18 @@ score_requirement = 500.0
 initial_games = 1000
 
 def some_random_games_first():
-    valid_actions = []
-    actions = []
-    rtot = 0
     for episode in range(5):
         env.reset()
         for t in range(goal_steps):
             env.render()
             action = env.action_space.sample()
             observation, reward, done, info = env.step(action)
-            actions.append(action)
             if done:
                 break
-            rtot += reward
-            if reward or (not reward) :
-                print("Observation: ", observation)
-                print("Reward: ", reward)
-                print("Info: ", info)
-                print("Valid Action: ", action)
-                valid_actions.append(action)
-    print("Valid: ", set(valid_actions)) 
-    print("Total Reward: ", rtot)
-    print("Total actions: ", set(actions))
-#some_random_games_first()
+    print("Action Space: ", env.action_space.n)
+    print("Observation Space: ", env.observation_space.shape[0])
 
+#some_random_games_first()
 def initial_population():
     training_data = []
     # all scores:

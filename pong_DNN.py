@@ -82,4 +82,4 @@ def initial_population():
     return accepted_scores
 
 accepted_scores = initial_population()
-print(accepted_scores[0])
+print(accepted_scores)
